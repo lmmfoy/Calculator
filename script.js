@@ -1,0 +1,76 @@
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return a - b;
+}
+
+function multiply(a, b) {
+    return a * b;
+}
+
+function divide(a, b) {
+    return a / b;
+}
+
+function operate(operator, num1, num2) {
+    if (operator === "+") {
+       return add(num1, num2);
+    } else if (operator === "-") {
+        return subtract(num1, num2);
+    } else if (operator === "*") {
+        return multiply(num1, num2);
+    } else if (operator === "/") {
+        return divide(num1, num2);
+    }
+}
+
+const display = document.querySelector("#display");
+
+const zero = document.querySelector("#zero");
+const one = document.querySelector("#one");
+const two = document.querySelector("#two");
+const three = document.querySelector("#three");
+const four = document.querySelector("#four");
+const five = document.querySelector("#five");
+const six = document.querySelector("#six");
+const seven = document.querySelector("#seven");
+const eight = document.querySelector("#eight");
+const nine = document.querySelector("#nine");
+
+document.addEventListener("click", event => {
+    switch(event.target) {
+        case zero:
+            display.textContent += "0";
+            break;
+        case one:
+            display.textContent += "1";
+            break;
+        case two:
+            display.textContent += "2";
+            break;
+        case three:
+            display.textContent += "3";
+            break;
+        case four:
+            display.textContent += "4";
+            break;
+        case five:
+            display.textContent += "5";
+            break;
+        case six:
+            display.textContent += "6";
+            break;
+        case seven:
+            display.textContent += "7";
+            break;
+        case eight:
+            display.textContent += "8";
+            break;
+        case nine:
+            display.textContent += "9";
+            break;
+    }
+});
+
