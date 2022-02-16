@@ -1,3 +1,4 @@
+// Math functions:
 function add(a, b) {
     return a + b;
 }
@@ -26,29 +27,8 @@ function operate(operator, num1, num2) {
     }
 }
 
-const display = document.querySelector("p");
-
-
-const zero = document.querySelector("#zero");
-const one = document.querySelector("#one");
-const two = document.querySelector("#two");
-const three = document.querySelector("#three");
-const four = document.querySelector("#four");
-const five = document.querySelector("#five");
-const six = document.querySelector("#six");
-const seven = document.querySelector("#seven");
-const eight = document.querySelector("#eight");
-const nine = document.querySelector("#nine");
-const decimal = document.querySelector("#decimal");
-const addition = document.querySelector("#add");
-const subtraction = document.querySelector("#subtract");
-const multiplication = document.querySelector("#multiply");
-const division = document.querySelector("#divide");
-
-let displayValue = "";
-let operationComplete;
-
-document.addEventListener("click", event => {
+// If a number entered, add to display
+function enterNumber(event) {
     switch(event.target) {
         case zero:
             display.textContent += "0";
@@ -90,23 +70,13 @@ document.addEventListener("click", event => {
             display.textContent += "9";
             displayValue += "9";
             break;
-    }    
-});
+    }
+};
 
-let num1 = 0;
-
-
-let operator;
-
-function addOperator(oper) {
-    display.textContent += oper;
-    num1 = parseFloat(displayValue);
-    operator = oper;
-    displayValue = "";
-}
-
-document.addEventListener("click", event => {
-
+// If operator entered, run "addOperator" function to display operator, 
+// save first number in "num1" variable to make room for second number in "displayValue",
+// save operator in "operator"
+function enterOperator(event) {
     switch(event.target) {
         case addition:
             addOperator("+")
@@ -121,24 +91,84 @@ document.addEventListener("click", event => {
             addOperator("/")
             break;
         case equals:
-            display.textContent += "=";
-            let equaled = operate(operator, num1, parseInt(displayValue));
-            display.textContent += equaled;
-            displayValue = equaled;
-            operationComplete = true;
+            equaling(); 
             break;
     }
+}
+
+function equaling() {
+    display.textContent += "=";
+    let equaled = operate(operator, num1, parseInt(displayValue)); // perform the math operation 
+    display.textContent += equaled;
+    displayValue = equaled; // save "equaled" in the displayValue in case the user wants to perform more operations on it
+    operationComplete = true;
+}
+    
+
+
+let num1 = 0;
+let operator;
+
+function addOperator(oper) {
+    if (display.textContent.includes("+") | display.textContent.includes("-") | display.textContent.includes("*") | display.textContent.includes("/")) {
+        equaling(); // If an operator is already in play, finish that equation before starting another      
+    } else {
+        num1 = parseFloat(displayValue); 
+        displayValue = ""; // Reset displayValue
+    }
+    display.textContent += oper; // Add operator to display and set "operator"
+    operator = oper; 
+}
+
+const display = document.querySelector("p");
+
+const zero = document.querySelector("#zero");
+const one = document.querySelector("#one");
+const two = document.querySelector("#two");
+const three = document.querySelector("#three");
+const four = document.querySelector("#four");
+const five = document.querySelector("#five");
+const six = document.querySelector("#six");
+const seven = document.querySelector("#seven");
+const eight = document.querySelector("#eight");
+const nine = document.querySelector("#nine");
+const decimal = document.querySelector("#decimal");
+const addition = document.querySelector("#add");
+const subtraction = document.querySelector("#subtract");
+const multiplication = document.querySelector("#multiply");
+const division = document.querySelector("#divide");
+
+let displayValue = "";
+let operationComplete;
+
+// If a number entered, add to display and to "displayValue"
+document.addEventListener("click", event => {
+    enterNumber(event);
 });
 
+
+// If operator entered, run "addOperator" function to display operator, 
+// save first number in "num1" variable to make room for second number in "displayValue",
+// save operator in "operator"
 document.addEventListener("click", event => {
-    if (operationComplete == true) {
-        display.textContent = displayValue;
+    enterOperator(event);    
+});
+
+
+document.addEventListener("click", event => {
+    if (operationComplete == true) { // If "equals" has just been pressed
+        display.textContent = displayValue; 
         if (event.target.classList.contains("number")) {
-            displayValue = "";
-            operationComplete = false;
+            operationComplete = false; // reset
+            displayValue = ""; // reset the displayValue
             display.textContent = "";
+            enterNumber(event); // begin again with number entry
         } else if (event.target.classList.contains("operator")) {
-            operationComplete = false;
+            operationComplete = false; 
+            display.textContent = displayValue; 
+            enterOperator(event);
         }
     }
 });
+
+
