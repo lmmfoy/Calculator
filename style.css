@@ -5,6 +5,7 @@
     align-items: center;
     width: 500px;
     margin: 50px auto;
+    
 
 }
 
@@ -12,26 +13,30 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 50px;
-    
+    height: 80px;
     background-color: rgba(231, 176, 236, 0.596);
-
-
+    
 }
 
 .button-row button {
     flex: 1 1 25%;
     background-color: rgba(231, 176, 236, 0.281);
     margin: 5px;
+    border-radius: 20px;
 }
 
 #display {
-    height: 60px;
+    height: 120px;
     width: 100%;
     background-color: rgba(231, 176, 236, 0.281);
+  
 }
 
 #display p {
     text-align: right;
-    padding: 8px 15px 8px;
+    padding: 15px 15px;
+    font-size: 40px;
+    outline: groove rgba(113, 85, 116, 0.288);
+    margin: 20px;
+    border-radius: 10px;
 }
