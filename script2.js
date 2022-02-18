@@ -39,13 +39,20 @@ function operationOngoing (){
     }
 }
 
-function equaling() {
-    display.textContent += "=";
+function equaling(value) {
     let equaled = operate(operator, num1, parseInt(tempValue)); // perform the math operation 
-    display.textContent += equaled;
-    tempValue = equaled; // save "equaled" in the tempValue in case the user wants to perform more operations on it
-    operationComplete = true;
+    if (value === "=") {
+        display.textContent += "=";   
+        display.textContent += equaled;
+        tempValue = equaled; // save "equaled" in the tempValue in case the user wants to perform more operations on it
+        operationComplete = true;
+    } else {
+        display.textContent = equaled;
+        tempValue = "";
+        num1 = equaled;
+    }
 }
+
 const display = document.querySelector("p");
 const clear = document.getElementById("clear");
 const backspace = document.getElementById("backspace");
@@ -57,12 +64,13 @@ let operationComplete = false;
 
 
 document.addEventListener("click", event => { 
+    let value = event.target.value;
     if (event.target.classList.contains("number")) {
         if (operationComplete === true) { // Checking to see if there was a previous operation, in which case start fresh
-             tempValue = event.target.value;
+             tempValue = value;
              operationComplete = false;
         } else {
-            tempValue += event.target.value;
+            tempValue += value;
         }
         if (operationOngoing() === true) {
             display.textContent += tempValue;
@@ -70,9 +78,10 @@ document.addEventListener("click", event => {
             display.textContent = tempValue;
         }
     } else if ((event.target.classList.contains("operator")) && (tempValue != "")) {
-        let inputOperator = event.target.value;
+        let inputOperator = value;
         if (operationOngoing() === true) {
-            equaling();
+            equaling(value); 
+            
         } else if (operationOngoing() === "reset display") {
             display.textContent = tempValue;
             addOperator(inputOperator);
@@ -81,8 +90,9 @@ document.addEventListener("click", event => {
         }
         display.textContent += inputOperator; // Add operator to display and set "operator"
         operator = inputOperator; 
-    } else if (event.target.value === "=") {
-        equaling();
+        
+    } else if (value === "=") {
+        equaling(value);
     }
 })
 
