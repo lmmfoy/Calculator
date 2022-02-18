@@ -26,7 +26,29 @@ function operate(operator, num1, num2) {
     }
 }
 
+function addOperator(oper) {
+    num1 = parseFloat(tempValue);
+    tempValue = "";
+}
+
+function operationOngoing (){
+    if (display.textContent.includes("=")) {
+        return "reset display";
+    } else if (display.textContent.includes("+") | display.textContent.includes("-") | display.textContent.includes("*") | display.textContent.includes("/")) {
+        return true;
+    }
+}
+
+function equaling() {
+    display.textContent += "=";
+    let equaled = operate(operator, num1, parseInt(tempValue)); // perform the math operation 
+    display.textContent += equaled;
+    tempValue = equaled; // save "equaled" in the tempValue in case the user wants to perform more operations on it
+    operationComplete = true;
+}
 const display = document.querySelector("p");
+const clear = document.getElementById("clear");
+const backspace = document.getElementById("backspace");
 
 let tempValue = "";
 let num1 = null;
@@ -64,27 +86,20 @@ document.addEventListener("click", event => {
     }
 })
 
-function addOperator(oper) {
-    num1 = parseFloat(tempValue);
-    tempValue = "";
-}
+// clear everything
+clear.addEventListener("click", function() {
+        tempValue = "";
+        num1 = null;
+        operator = "";
+        operationComplete = false;
+        display.textContent = "";
+    })
 
-function operationOngoing (){
-    if (display.textContent.includes("=")) {
-        return "reset display";
-    } else if (display.textContent.includes("+") | display.textContent.includes("-") | display.textContent.includes("*") | display.textContent.includes("/")) {
-        return true;
-    }
-}
+backspace.addEventListener("click", function() {
 
-function equaling() {
-    display.textContent += "=";
-    let equaled = operate(operator, num1, parseInt(tempValue)); // perform the math operation 
-    display.textContent += equaled;
-    tempValue = equaled; // save "equaled" in the tempValue in case the user wants to perform more operations on it
-    operationComplete = true;
-}
-    
+})
+
+
 
 
 
