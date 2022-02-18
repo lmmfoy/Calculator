@@ -23,6 +23,9 @@ function operate(operator, num1, num2) {
     } else if (operator === "*") {
         answer = multiply(num1, num2);
     } else if (operator === "/") {
+        if (num2 === 0) {
+            return false;
+        }
         answer = divide(num1, num2);
     }
     return Math.round(answer * 10000) / 10000; // Rounding decimals
@@ -43,6 +46,11 @@ function operationOngoing (){
 
 function equaling(value) {
     let equaled = operate(operator, num1, parseInt(tempValue)); // perform the math operation 
+    if (equaled === false) {
+        clearAll();
+        display.textContent = "No! Try again."
+        return;
+    }
     if (value === "=") {
         display.textContent += "=";   
         display.textContent += equaled;
@@ -53,6 +61,15 @@ function equaling(value) {
         tempValue = "";
         num1 = equaled;
     }
+}
+
+
+function clearAll() {
+    tempValue = "";
+    num1 = null;
+    operator = "";
+    operationComplete = false;
+    display.textContent = "";
 }
 
 const display = document.querySelector("p");
@@ -81,7 +98,6 @@ document.addEventListener("click", event => {
             } else {
                 display.textContent += tempValue;
             }
-        
         } else {
             display.textContent = tempValue;
         }
@@ -104,14 +120,9 @@ document.addEventListener("click", event => {
     }
 })
 
+
 // clear everything
-clear.addEventListener("click", function() {
-        tempValue = "";
-        num1 = null;
-        operator = "";
-        operationComplete = false;
-        display.textContent = "";
-    })
+clear.addEventListener("click", () => clearAll());
 
 backspace.addEventListener("click", function() {
 
