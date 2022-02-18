@@ -15,15 +15,17 @@ function divide(a, b) {
 }
 
 function operate(operator, num1, num2) {
+    let answer;
     if (operator === "+") {
-       return add(num1, num2);
+       answer = add(num1, num2);
     } else if (operator === "-") {
-        return subtract(num1, num2);
+        answer = subtract(num1, num2);
     } else if (operator === "*") {
-        return multiply(num1, num2);
+        answer = multiply(num1, num2);
     } else if (operator === "/") {
-        return divide(num1, num2);
+        answer = divide(num1, num2);
     }
+    return Math.round(answer * 10000) / 10000; // Rounding decimals
 }
 
 function addOperator(oper) {
@@ -91,8 +93,8 @@ document.addEventListener("click", event => {
         display.textContent += inputOperator; // Add operator to display and set "operator"
         operator = inputOperator; 
         
-    } else if (value === "=") {
-        equaling(value);
+    } else if (value === "=" && operationOngoing() === true) {
+        equaling(value);     
     }
 })
 
