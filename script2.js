@@ -124,6 +124,7 @@ document.addEventListener("click", event => {
 // clear everything
 clear.addEventListener("click", () => clearAll());
 
+// todo
 backspace.addEventListener("click", function() {
 
 })
@@ -131,66 +132,3 @@ backspace.addEventListener("click", function() {
 
 
 
-
-
-
-// function enterNumber(event) {
-//     switch(event.target) {
-//         case zero:
-//             return "0";
-//         case one:
-//             return "1";
-//         case two:
-//             return "2";
-//         case three:
-//             return "3";
-//         case four:
-//             return "4";
-//         case five:
-//             return "5";
-//         case six:
-//             return "6";
-//         case seven:
-//             return "7";
-//         case eight:
-//             return "8";
-//         case nine:
-//             return "9";
-//     }
-// }
-
-// function enterOperator(event) {
-//     switch(event.target) {
-//         case addition:
-//             addOperator("+")
-//             break;
-//         case subtraction:
-//             addOperator("-")
-//             break;
-//         case multiplication:
-//             addOperator("*")
-//             break;
-//         case division:
-//             addOperator("/")
-//             break;
-//         case equals:
-//             equaling(); 
-//             break;
-//     }
-// }
-
-
-// function addOperator(oper) {
-//     if (display.textContent.includes("+") | display.textContent.includes("-") | display.textContent.includes("*") | display.textContent.includes("/")) {
-//         equaling(); // If an operator is already in play, finish that equation before starting another      
-//     } else {
-//         num1 = parseFloat(displayValue); 
-//         displayValue = ""; // Reset displayValue
-//     }
-//     display.textContent += oper; // Add operator to display and set "operator"
-//     operator = oper; 
-// }
-
-// function addOperator(oper) {
-//     return parseFloat(displayValue)
-// }
