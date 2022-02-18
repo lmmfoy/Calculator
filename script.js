@@ -73,9 +73,13 @@ function enterNumber(event) {
     }
 };
 
-// If operator entered, run "addOperator" function to display operator, 
-// save first number in "num1" variable to make room for second number in "displayValue",
-// save operator in "operator"
+
+
+/* If operator entered, run "addOperator" function to display operator, 
+ save first number in "num1" variable to make room for second number in "displayValue",
+ and save operator in "operator"
+*/
+
 function enterOperator(event) {
     switch(event.target) {
         case addition:
@@ -96,18 +100,13 @@ function enterOperator(event) {
     }
 }
 
-function equaling() {
-    display.textContent += "=";
-    let equaled = operate(operator, num1, parseInt(displayValue)); // perform the math operation 
-    display.textContent += equaled;
-    displayValue = equaled; // save "equaled" in the displayValue in case the user wants to perform more operations on it
-    operationComplete = true;
-}
-    
-
-
 let num1 = 0;
 let operator;
+
+/* display operator, 
+save first number in "num1" variable to make room for second number in "displayValue",
+and save operator in "operator"
+*/
 
 function addOperator(oper) {
     if (display.textContent.includes("+") | display.textContent.includes("-") | display.textContent.includes("*") | display.textContent.includes("/")) {
@@ -119,6 +118,18 @@ function addOperator(oper) {
     display.textContent += oper; // Add operator to display and set "operator"
     operator = oper; 
 }
+
+function equaling() {
+    display.textContent += "=";
+    let equaled = operate(operator, num1, parseInt(displayValue)); // perform the math operation 
+    display.textContent += equaled;
+    displayValue = equaled; // save "equaled" in the displayValue in case the user wants to perform more operations on it
+    operationComplete = true;
+}
+    
+
+
+
 
 const display = document.querySelector("p");
 
@@ -141,19 +152,6 @@ const division = document.querySelector("#divide");
 let displayValue = "";
 let operationComplete;
 
-// If a number entered, add to display and to "displayValue"
-document.addEventListener("click", event => {
-    enterNumber(event);
-});
-
-
-// If operator entered, run "addOperator" function to display operator, 
-// save first number in "num1" variable to make room for second number in "displayValue",
-// save operator in "operator"
-document.addEventListener("click", event => {
-    enterOperator(event);    
-});
-
 
 document.addEventListener("click", event => {
     if (operationComplete == true) { // If "equals" has just been pressed
@@ -170,5 +168,18 @@ document.addEventListener("click", event => {
         }
     }
 });
+
+
+
+// If a number entered, add to display and to "displayValue"
+document.addEventListener("click", event => {
+    if (event.target.classList.contains("number")) {
+        enterNumber(event);
+        
+    } else if (event.target.classList.contains("operator")) {
+        enterOperator(event); 
+    }
+});
+
 
 
