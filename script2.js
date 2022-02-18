@@ -75,7 +75,13 @@ document.addEventListener("click", event => {
             tempValue += value;
         }
         if (operationOngoing() === true) {
-            display.textContent += tempValue;
+            let a = display.textContent;
+            if (/\D[0-9]*\b/.test(a)) {
+                display.textContent = num1 + operator + tempValue;
+            } else {
+                display.textContent += tempValue;
+            }
+        
         } else {
             display.textContent = tempValue;
         }
