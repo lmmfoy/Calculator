@@ -10,17 +10,61 @@
     border: solid #F2789F;
     border-radius: 10px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    
 }
 
+
+
+#display-outer {
+    border-radius: 10px;
+    border: inset 2px #F2789FA1;
+    height: 140px;
+    width: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffd1df;
+}
+
+
+#display-inner {
+    background-color: #FFDEE8;
+    border: inset #F2789F42;
+    padding: 10px;
+    height: 100px;
+    width: 440px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    color: #3f0316; 
+}
+
+
+#display-top {
+    margin: 0px 5px;
+    font-size: 25px;
+    line-height: 25px;
+    height: 30px;
+    
+}
+
+#display-bottom {
+    margin: 0px;
+    font-size: 45px;
+    line-height: 45px;
+    height: 45px;
+}
 
 
 .button-row {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 80px;
+    height: 90px;
     background-color: #F9C5D5;
     padding: 0 10px;
+    
     
 }
 
@@ -34,32 +78,21 @@
     margin: 5px;
     border-radius: 20px;
     border: 2px solid #F2789F;
-    font-size: 25px;
-    color: #3f0316;
-    
+    font-size: 30px;
+    color: #3f0316d7;
+    font-weight: 900;
 }
 
-#display {
-    height: 120px;
-    width: 100%;
-    background-color: #FEE3EC;
-    border-radius: 10px;
-    border: inset 2px #F2789FA1;
+.button-row button:hover {
+    background-color: #f383a7db;
 }
 
-#display p {
-    text-align: right;
-    padding: 15px 15px;
-    font-size: 50px;
-    outline: inset #F2789F42;
-    margin: 10px;
-    border-radius: 10px;
-    height: 70px;
-    line-height: 79px;
-    color: #3f0316;
-}
 
 .button-row button.operator, #equals {
     background-color: #F2789F;
     border: 2px solid #EE5788;
+}
+
+.button-row button.operator:hover, #equals:hover {
+    background-color: #f36692;
 }
