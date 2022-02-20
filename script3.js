@@ -89,7 +89,7 @@ let bottomValue = "";
 let num1 = null;
 let operator = "";
 let operationComplete = false;
-
+let operatorLast = false;
 
 document.addEventListener("click", event => { 
 
@@ -106,6 +106,7 @@ document.addEventListener("click", event => {
         }
 
         displayBottom.textContent = bottomValue;
+        operatorLast = false;
         
     } else if ((event.target.classList.contains("operator")) && (bottomValue != "")) {
 
@@ -124,9 +125,12 @@ document.addEventListener("click", event => {
 
         displayTop.textContent = num1 + inputOperator; // Add operator to display and set "operator"
         operator = inputOperator; 
+
+        operatorLast = true;
         
     } else if (value === "=" && operationOngoing() === true) {
         equaling(value);   
+        operatorLast = false;
     }
 })
 
@@ -134,11 +138,16 @@ document.addEventListener("click", event => {
 // clear everything
 clear.addEventListener("click", () => clearAll());
 
-// todo
+// clear last number/operator entered
 backspace.addEventListener("click", function() {
-
+    if (operatorLast === true) {
+        displayTop.textContent = displayTop.textContent.slice(0, -1);
+        bottomValue = num1;
+        operatorLast = false;
+    
+    } else {
+        displayBottom.textContent = displayBottom.textContent.slice(0, -1);
+        bottomValue = bottomValue.slice(0, -1);
+    }
 })
-
-
-
 
