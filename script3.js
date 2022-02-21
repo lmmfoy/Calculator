@@ -31,7 +31,7 @@ function operate(operator, num1, num2) {
         }
         answer = divide(num1, num2);
     }
-    return Math.round(answer * 10000) / 10000; // Rounding decimals
+    return Math.round(answer * 10000000000) / 10000000000; // Rounding decimals
 }
 
 function addOperator(oper) {
@@ -51,7 +51,7 @@ function operationOngoing (){
 
 function equaling(value) {
 
-    let equaled = operate(operator, num1, parseInt(bottomValue)); // perform the math operation 
+    let equaled = operate(operator, num1, parseFloat(bottomValue)); // perform the math operation 
     
     if (equaled === false) {
         clearAll();
@@ -103,6 +103,9 @@ document.addEventListener("click", event => {
         if (operationComplete === true) { // Checking to see if there was a previous operation, in which case start fresh
              bottomValue = value;
              operationComplete = false;
+
+        } else if (value === "." && displayBottom.textContent.includes(".")) { // Only one decimal allowed per number
+            return;
 
         } else {
             bottomValue += value;
@@ -157,5 +160,5 @@ backspace.addEventListener("click", function() {
         displayBottom.textContent = displayBottom.textContent.slice(0, -1);
         bottomValue = bottomValue.slice(0, -1);
     }
-})
+});
 
