@@ -102,6 +102,9 @@ function backSpace() {
 function dataEntry(value) {
 
     if (numbers.includes(value)) {
+        // if (displayBottom.textContent.length >= 15) {
+        //     return;
+        // }
 
         if (operationComplete === true) { // Checking to see if there was a previous operation, in which case start fresh
              bottomValue = value;
@@ -138,6 +141,9 @@ function dataEntry(value) {
         operatorLast = true;
         
     } else if ((value === "=" || value === "Enter") && operationOngoing() === true) {
+        if (value === "Enter") {
+            value = "=";
+        }
         equaling(value);   
         operatorLast = false;
     }
@@ -165,6 +171,8 @@ const operators = ["+", "-", "*", "/"];
 document.addEventListener("click", event => dataEntry(event.target.value));
 
 document.addEventListener("keydown", event => dataEntry(event.key));
+
+document.addEventListener("keydown", event => console.log("key: " + event.key))
 
 // clear everything
 clear.addEventListener("click", () => clearAll());
