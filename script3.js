@@ -16,6 +16,9 @@ function divide(a, b) {
 
 function operate(operator, num1, num2) {
     let answer;
+    if (num2 === undefined) {
+        return false;
+    }
     if (operator === "+") {
        answer = add(num1, num2);
     } else if (operator === "-") {
@@ -49,7 +52,7 @@ function operationOngoing (){
 function equaling(value) {
 
     let equaled = operate(operator, num1, parseInt(bottomValue)); // perform the math operation 
-
+    
     if (equaled === false) {
         clearAll();
         displayTop.textContent = "No! Try again."
@@ -131,6 +134,11 @@ document.addEventListener("click", event => {
     } else if (value === "=" && operationOngoing() === true) {
         equaling(value);   
         operatorLast = false;
+    }
+
+    if (/[\+\-\*\/]=/.test(displayTop.textContent)) { // If user hits "=" immediately after an operator, the display won't change and further operations will still be possible
+        displayTop.textContent = displayTop.textContent.slice(0, -1);
+        displayBottom.textContent = num1;
     }
 })
 
