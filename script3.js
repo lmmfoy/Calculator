@@ -39,7 +39,7 @@ function addOperator(oper) {
     bottomValue = "";
 }
 
-function operationOngoing (){
+function operationOngoing() {
     
     if (displayTop.textContent.includes("=")) {
         return "reset display";
@@ -83,22 +83,22 @@ function clearAll() {
     displayBottom.textContent = "";
 }
 
-const displayTop = document.getElementById("display-top");
-const displayBottom = document.getElementById("display-bottom");
-const clear = document.getElementById("clear");
-const backspace = document.getElementById("backspace");
+function backSpace() {
+    if (operatorLast === true) {
+        displayTop.textContent = displayTop.textContent.slice(0, -1);
+        bottomValue = num1;
+        operatorLast = false;
+    
+    } else {
+        displayBottom.textContent = displayBottom.textContent.slice(0, -1);
+        bottomValue = bottomValue.slice(0, -1);
+    }
+};
 
-let bottomValue = "";
-let num1 = null;
-let operator = "";
-let operationComplete = false;
-let operatorLast = false;
 
-document.addEventListener("click", event => { 
+function dataEntry(value) {
 
-    let value = event.target.value;
-
-    if (event.target.classList.contains("number")) {
+    if (numbers.includes(value)) {
 
         if (operationComplete === true) { // Checking to see if there was a previous operation, in which case start fresh
              bottomValue = value;
@@ -114,7 +114,7 @@ document.addEventListener("click", event => {
         displayBottom.textContent = bottomValue;
         operatorLast = false;
         
-    } else if ((event.target.classList.contains("operator")) && (bottomValue != "")) {
+    } else if ((operators.includes(value)) && (bottomValue != "")) {
 
         let inputOperator = value;
         
@@ -143,22 +143,35 @@ document.addEventListener("click", event => {
         displayTop.textContent = displayTop.textContent.slice(0, -1);
         displayBottom.textContent = num1;
     }
-})
+};
 
+
+const displayTop = document.getElementById("display-top");
+const displayBottom = document.getElementById("display-bottom");
+const clear = document.getElementById("clear");
+const backspace = document.getElementById("backspace");
+
+let bottomValue = "";
+let num1 = null;
+let operator = "";
+let operationComplete = false;
+let operatorLast = false;
+const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
+const operators = ["+", "-", "*", "/"];
+
+document.addEventListener("click", event => dataEntry(event.target.value));
+
+document.addEventListener("keydown", event => dataEntry(event.key));
 
 // clear everything
 clear.addEventListener("click", () => clearAll());
 
-// clear last number/operator entered
-backspace.addEventListener("click", function() {
-    if (operatorLast === true) {
-        displayTop.textContent = displayTop.textContent.slice(0, -1);
-        bottomValue = num1;
-        operatorLast = false;
-    
-    } else {
-        displayBottom.textContent = displayBottom.textContent.slice(0, -1);
-        bottomValue = bottomValue.slice(0, -1);
-    }
+// clear last number/operator entered if backspace hit
+backspace.addEventListener("click", () => backSpace());
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Backspace") {
+        backSpace();
+    } 
 });
 
