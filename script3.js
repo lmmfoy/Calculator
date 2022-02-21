@@ -112,7 +112,7 @@ function dataEntry(value) {
         displayBottom.textContent = bottomValue;
         operatorLast = false;
         
-    } else if ((operators.includes(value)) && (bottomValue != "")) {
+    } else if ((operators.includes(value)) && (bottomValue === 0 || bottomValue !== "")) {
 
         let inputOperator = value;
         
