@@ -34,22 +34,25 @@ function operate(operator, num1, num2) {
     }
 
     return Math.round(answer * 10000000000) / 10000000000; // Rounding decimals
-}
+};
 
 function addOperator(oper) {
     calculator.num1 = parseFloat(calculator.bottomValue);
     calculator.bottomValue = "";
-}
+};
 
 function operationOngoing() {
-    
-    if (displayTop.textContent.includes("=")) {
-        return "reset display";
-
-    } else if (displayTop.textContent.includes("+") | displayTop.textContent.includes("-") | displayTop.textContent.includes("*") | displayTop.textContent.includes("/")) {
+    if (displayTop.textContent.includes("+") | displayTop.textContent.includes("-") | displayTop.textContent.includes("*") | displayTop.textContent.includes("/")) {
         return true;
     }
-}
+};
+
+function resetDisplay() {
+    if (displayTop.textContent.includes("=")) {
+        return true;
+    }
+};
+
 
 function equaling(value) {
     
@@ -114,8 +117,9 @@ function dataEntry(value) {
         //     return;
         //  }
 
-        if (calculator.operationComplete === true) { // Checking to see if there was a previous operation, in which case start fresh
+        if (resetDisplay()) { // Checking to see if there was a previous operation, in which case start fresh
              calculator.bottomValue = value;
+             displayTop.textContent = "";
              calculator.operationComplete = false;
 
         } else if (value === "." && displayBottom.textContent.includes(".")) { // Only one decimal allowed per number
@@ -132,10 +136,10 @@ function dataEntry(value) {
 
         let inputOperator = value;
         
-        if (operationOngoing() === true) {
+        if (operationOngoing()) {
             equaling(value); 
 
-        } else if (operationOngoing() === "reset display") {
+        } else if (resetDisplay()) {
             displayTop.textContent = calculator.bottomValue;
             addOperator(inputOperator);
 
