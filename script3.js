@@ -16,9 +16,7 @@ function divide(a, b) {
 
 function operate(operator, num1, num2) {
     let answer;
-    if (num2 === undefined) {
-        return false;
-    }
+
     if (operator === "+") {
        answer = add(num1, num2);
     } else if (operator === "-") {
@@ -31,6 +29,7 @@ function operate(operator, num1, num2) {
         }
         answer = divide(num1, num2);
     }
+
     return Math.round(answer * 10000000000) / 10000000000; // Rounding decimals
 }
 
@@ -50,9 +49,15 @@ function operationOngoing() {
 }
 
 function equaling(value) {
-
-    let equaled = operate(operator, num1, parseFloat(bottomValue)); // perform the math operation 
     
+    num2 = parseFloat(bottomValue);
+
+    if (isNaN(num2)) {
+        return;
+    }
+
+    let equaled = operate(operator, num1, num2); // perform the math operation 
+
     if (equaled === false) {
         clearAll();
         displayTop.textContent = "No! Try again."
@@ -102,9 +107,9 @@ function backSpace() {
 function dataEntry(value) {
 
     if (numbers.includes(value)) {
-        // if (displayBottom.textContent.length >= 15) {
+        //  if (displayBottom.textContent.length >= 15) {
         //     return;
-        // }
+        //  }
 
         if (operationComplete === true) { // Checking to see if there was a previous operation, in which case start fresh
              bottomValue = value;
@@ -151,6 +156,7 @@ function dataEntry(value) {
     if (/[\+\-\*\/]=/.test(displayTop.textContent)) { // If user hits "=" immediately after an operator, the display won't change and further operations will still be possible
         displayTop.textContent = displayTop.textContent.slice(0, -1);
         displayBottom.textContent = num1;
+        operatorLast = true;
     }
 };
 
