@@ -1,33 +1,20 @@
-function add(a, b) {
-    return a + b;
-}
-
-function subtract(a, b) {
-    return a - b;
-}
-
-function multiply(a, b) {
-    return a * b;
-}
-
-function divide(a, b) {
-    return a / b;
-}
-
 function operate(operator, num1, num2) {
     let answer;
 
     if (operator === "+") {
-       answer = add(num1, num2);
+       answer = num1 + num2;
+
     } else if (operator === "-") {
-        answer = subtract(num1, num2);
+        answer = num1 - num2;
+
     } else if (operator === "*") {
-        answer = multiply(num1, num2);
+        answer = num1 * num2;
+
     } else if (operator === "/") {
-        if (num2 === 0) {
+        if (num2 === 0) { // Don't let user divide by 0
             return false;
         }
-        answer = divide(num1, num2);
+        answer = num1 / num2;
     }
 
     return Math.round(answer * 10000000000) / 10000000000; // Rounding decimals
@@ -151,12 +138,6 @@ function dataEntry(value) {
         }
         equaling(value);   
         operatorLast = false;
-    }
-
-    if (/[\+\-\*\/]=/.test(displayTop.textContent)) { // If user hits "=" immediately after an operator, the display won't change and further operations will still be possible
-        displayTop.textContent = displayTop.textContent.slice(0, -1);
-        displayBottom.textContent = num1;
-        operatorLast = true;
     }
 };
 
