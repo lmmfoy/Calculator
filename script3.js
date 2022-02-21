@@ -84,7 +84,10 @@ function clearAll() {
 }
 
 function backSpace() {
-    if (operatorLast === true) {
+    if (operationComplete === true) { // Don't backspace on a previous answer
+        return;
+
+    } else if (operatorLast === true) {
         displayTop.textContent = displayTop.textContent.slice(0, -1);
         bottomValue = num1;
         operatorLast = false;
@@ -134,7 +137,7 @@ function dataEntry(value) {
 
         operatorLast = true;
         
-    } else if (value === "=" && operationOngoing() === true) {
+    } else if ((value === "=" || value === "Enter") && operationOngoing() === true) {
         equaling(value);   
         operatorLast = false;
     }
