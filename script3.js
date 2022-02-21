@@ -1,3 +1,19 @@
+const displayTop = document.getElementById("display-top");
+const displayBottom = document.getElementById("display-bottom");
+const clear = document.getElementById("clear");
+const backspace = document.getElementById("backspace");
+
+let calculator = {
+    numbers: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."],
+    operators: ["+", "-", "*", "/"],
+    operator: "",
+    num1: null,
+    bottomValue: "",
+    operationComplete: false,
+    operatorLast: false,
+};
+
+
 function operate(operator, num1, num2) {
     let answer;
 
@@ -21,8 +37,8 @@ function operate(operator, num1, num2) {
 }
 
 function addOperator(oper) {
-    num1 = parseFloat(bottomValue);
-    bottomValue = "";
+    calculator.num1 = parseFloat(calculator.bottomValue);
+    calculator.bottomValue = "";
 }
 
 function operationOngoing() {
@@ -37,13 +53,13 @@ function operationOngoing() {
 
 function equaling(value) {
     
-    num2 = parseFloat(bottomValue);
+    num2 = parseFloat(calculator.bottomValue);
 
     if (isNaN(num2)) {
         return;
     }
 
-    let equaled = operate(operator, num1, num2); // perform the math operation 
+    let equaled = operate(calculator.operator, calculator.num1, num2); // perform the math operation 
 
     if (equaled === false) {
         clearAll();
@@ -52,67 +68,67 @@ function equaling(value) {
     }
 
     if (value === "=") {
-        displayTop.textContent += bottomValue + "=";   
+        displayTop.textContent += calculator.bottomValue + "=";   
         displayBottom.textContent = equaled;
-        bottomValue = equaled; // save "equaled" in the bottomValue in case the user wants to perform more operations on it
-        operationComplete = true;
+        calculator.bottomValue = equaled; // save "equaled" in the calculator.bottomValue in case the user wants to perform more operations on it
+        calculator.operationComplete = true;
 
     } else {
         displayTop.textContent = equaled;
         displayBottom.textContent = equaled;
-        bottomValue = "";
-        num1 = equaled;
+        calculator.bottomValue = "";
+        calculator.num1 = equaled;
     }
 }
 
 
 function clearAll() {
-    bottomValue = "";
-    num1 = null;
-    operator = "";
-    operationComplete = false;
+    calculator.bottomValue = "";
+    calculator.num1 = null;
+    calculator.operator = "";
+    calculator.operationComplete = false;
     displayTop.textContent = "";
     displayBottom.textContent = "";
 }
 
 function backSpace() {
-    if (operationComplete === true) { // Don't backspace on a previous answer
+    if (calculator.operationComplete === true) { // Don't backspace on a previous answer
         return;
 
-    } else if (operatorLast === true) {
+    } else if (calculator.operatorLast === true) {
         displayTop.textContent = displayTop.textContent.slice(0, -1);
-        bottomValue = num1;
-        operatorLast = false;
+        calculator.bottomValue = calculator.num1;
+        calculator.operatorLast = false;
     
     } else {
         displayBottom.textContent = displayBottom.textContent.slice(0, -1);
-        bottomValue = bottomValue.slice(0, -1);
+        calculator.bottomValue = calculator.bottomValue.slice(0, -1);
     }
 };
 
 
 function dataEntry(value) {
 
-    if (numbers.includes(value)) {
+    if (calculator.numbers.includes(value)) {
         //  if (displayBottom.textContent.length >= 15) {
         //     return;
         //  }
 
-        if (operationComplete === true) { // Checking to see if there was a previous operation, in which case start fresh
-             bottomValue = value;
-             operationComplete = false;
+        if (calculator.operationComplete === true) { // Checking to see if there was a previous operation, in which case start fresh
+             calculator.bottomValue = value;
+             calculator.operationComplete = false;
 
         } else if (value === "." && displayBottom.textContent.includes(".")) { // Only one decimal allowed per number
             return;
 
         } else {
-            bottomValue += value;
+            calculator.bottomValue += value;
         }
 
-        displayBottom.textContent = bottomValue;
-        operatorLast = false;
+        displayBottom.textContent = calculator.bottomValue;
+        calculator.operatorLast = false;
         
-    } else if ((operators.includes(value)) && (bottomValue === 0 || bottomValue !== "")) {
+    } else if ((calculator.operators.includes(value)) && (calculator.bottomValue === 0 || calculator.bottomValue !== "")) {
 
         let inputOperator = value;
         
@@ -120,40 +136,28 @@ function dataEntry(value) {
             equaling(value); 
 
         } else if (operationOngoing() === "reset display") {
-            displayTop.textContent = bottomValue;
+            displayTop.textContent = calculator.bottomValue;
             addOperator(inputOperator);
 
         } else {
             addOperator(inputOperator);
         }
 
-        displayTop.textContent = num1 + inputOperator; // Add operator to display and set "operator"
-        operator = inputOperator; 
+        displayTop.textContent = calculator.num1 + inputOperator; // Add operator to display and set "operator"
+        calculator.operator = inputOperator; 
 
-        operatorLast = true;
+        calculator.operatorLast = true;
         
     } else if ((value === "=" || value === "Enter") && operationOngoing() === true) {
         if (value === "Enter") {
             value = "=";
         }
         equaling(value);   
-        operatorLast = false;
+        calculator.operatorLast = false;
     }
 };
 
 
-const displayTop = document.getElementById("display-top");
-const displayBottom = document.getElementById("display-bottom");
-const clear = document.getElementById("clear");
-const backspace = document.getElementById("backspace");
-
-let bottomValue = "";
-let num1 = null;
-let operator = "";
-let operationComplete = false;
-let operatorLast = false;
-const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
-const operators = ["+", "-", "*", "/"];
 
 document.addEventListener("click", event => dataEntry(event.target.value));
 
