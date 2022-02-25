@@ -3,7 +3,7 @@ const displayBottom = document.getElementById("display-bottom");
 const clear = document.getElementById("clear");
 const backspace = document.getElementById("backspace");
 
-let calculator = {
+const calculator = {
     numbers: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."],
     operators: ["+", "-", "*", "/"],
     operator: "",
@@ -33,31 +33,30 @@ function operate(operator, num1, num2) {
     }
 
     return Math.round(answer * 10000000000) / 10000000000; // Rounding decimals
-};
+}
 
 
 function addOperator(oper) {
     calculator.num1 = parseFloat(calculator.bottomValue);
     calculator.bottomValue = "";
-};
+}
 
 
 function operationOngoing() {
-    if (displayTop.textContent.includes("+") || displayTop.textContent.includes("-") || displayTop.textContent.includes("*") || displayTop.textContent.includes("/")) {
+    if (!operationComplete() && (displayTop.textContent.includes("+") || displayTop.textContent.includes("-") || displayTop.textContent.includes("*") || displayTop.textContent.includes("/"))) {
         return true;
     }
-};
+}
 
 
-function resetDisplay() {
+function operationComplete() {
     if (displayTop.textContent.includes("=")) {
         return true;
     }
-};
+}
 
 
 function equaling(value) {
-    
     num2 = parseFloat(calculator.bottomValue);
 
     if (isNaN(num2)) {
@@ -96,8 +95,7 @@ function clearAll() {
 
 
 function backSpace() {
-    
-    if (resetDisplay()) { // Don't backspace on a previous answer
+    if (operationComplete()) { // Don't backspace on a previous answer
         return;
 
     } else if (calculator.operatorLast === true) {
@@ -113,22 +111,17 @@ function backSpace() {
 
 
 function inputValueNumber(value) {
-
     if (value === "." && displayBottom.textContent.includes(".")) { // Only one decimal allowed per number
        return;
     }
 
    calculator.bottomValue += value; 
-
    displayBottom.textContent = calculator.bottomValue;
-
    calculator.operatorLast = false;
-
 }
 
 
 function inputValueOperator(value) {
-
     if (calculator.bottomValue === ""){ // Prevents 2 operators in a row being added, or an operator before an operand
         return;
     }
@@ -138,7 +131,7 @@ function inputValueOperator(value) {
     if (operationOngoing()) {
         equaling(value); 
 
-    } else if (resetDisplay()) {
+    } else if (operationComplete()) {
         displayTop.textContent = calculator.bottomValue;
         addOperator(inputOperator);
 
@@ -147,17 +140,13 @@ function inputValueOperator(value) {
     }
 
     displayTop.textContent = calculator.num1 + inputOperator; // Add operator to display and set "operator" 
-
     calculator.operator = inputOperator; 
-
     calculator.operatorLast = true;
 }
 
 
-
 function inputValueEqual(value) { 
-
-    if (operationOngoing() === false) {
+    if ((operationOngoing() === false) || operationComplete()) { 
         return
     }
 
@@ -172,7 +161,6 @@ function inputValueEqual(value) {
 
 
 function characterLimit() {
-
     if ((displayBottom.textContent.length >= 15) && (calculator.bottomValue !== "")) {
         return true;
     }
@@ -180,15 +168,13 @@ function characterLimit() {
 
 
 function dataEntry(value) {
-
-
     if (calculator.numbers.includes(value)) {
 
         if (characterLimit()) { // Don't allow number to overflow display
             return;
         }
 
-        if (resetDisplay()) { // Checking to see if there was a previous operation, in which case start fresh
+        if (operationComplete()) { // Checking to see if there was a previous operation, in which case start fresh
             calculator.bottomValue = value;
             displayTop.textContent = "";
         }
@@ -201,9 +187,7 @@ function dataEntry(value) {
     } else if (value === "=" || value === "Enter") {
         inputValueEqual(value);
     }
-
 }
-
 
 
 document.addEventListener("click", event => dataEntry(event.target.value));
