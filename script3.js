@@ -9,7 +9,6 @@ let calculator = {
     operator: "",
     num1: null,
     bottomValue: "",
-    operationComplete: false,
     operatorLast: false,
 };
 
@@ -36,16 +35,19 @@ function operate(operator, num1, num2) {
     return Math.round(answer * 10000000000) / 10000000000; // Rounding decimals
 };
 
+
 function addOperator(oper) {
     calculator.num1 = parseFloat(calculator.bottomValue);
     calculator.bottomValue = "";
 };
 
+
 function operationOngoing() {
-    if (displayTop.textContent.includes("+") | displayTop.textContent.includes("-") | displayTop.textContent.includes("*") | displayTop.textContent.includes("/")) {
+    if (displayTop.textContent.includes("+") || displayTop.textContent.includes("-") || displayTop.textContent.includes("*") || displayTop.textContent.includes("/")) {
         return true;
     }
 };
+
 
 function resetDisplay() {
     if (displayTop.textContent.includes("=")) {
@@ -74,7 +76,6 @@ function equaling(value) {
         displayTop.textContent += calculator.bottomValue + "=";   
         displayBottom.textContent = equaled;
         calculator.bottomValue = equaled; // save "equaled" in the calculator.bottomValue in case the user wants to perform more operations on it
-        calculator.operationComplete = true;
 
     } else {
         displayTop.textContent = equaled;
@@ -89,13 +90,14 @@ function clearAll() {
     calculator.bottomValue = "";
     calculator.num1 = null;
     calculator.operator = "";
-    calculator.operationComplete = false;
     displayTop.textContent = "";
     displayBottom.textContent = "";
 }
 
+
 function backSpace() {
-    if (calculator.operationComplete === true) { // Don't backspace on a previous answer
+    
+    if (resetDisplay()) { // Don't backspace on a previous answer
         return;
 
     } else if (calculator.operatorLast === true) {
@@ -107,59 +109,100 @@ function backSpace() {
         displayBottom.textContent = displayBottom.textContent.slice(0, -1);
         calculator.bottomValue = calculator.bottomValue.slice(0, -1);
     }
-};
+}
+
+
+function inputValueNumber(value) {
+
+    if (value === "." && displayBottom.textContent.includes(".")) { // Only one decimal allowed per number
+       return;
+    }
+
+   calculator.bottomValue += value; 
+
+   displayBottom.textContent = calculator.bottomValue;
+
+   calculator.operatorLast = false;
+
+}
+
+
+function inputValueOperator(value) {
+
+    if (calculator.bottomValue === ""){ // Prevents 2 operators in a row being added, or an operator before an operand
+        return;
+    }
+
+    let inputOperator = value;
+    
+    if (operationOngoing()) {
+        equaling(value); 
+
+    } else if (resetDisplay()) {
+        displayTop.textContent = calculator.bottomValue;
+        addOperator(inputOperator);
+
+    } else {
+        addOperator(inputOperator);
+    }
+
+    displayTop.textContent = calculator.num1 + inputOperator; // Add operator to display and set "operator" 
+
+    calculator.operator = inputOperator; 
+
+    calculator.operatorLast = true;
+}
+
+
+
+function inputValueEqual(value) { 
+
+    if (operationOngoing() === false) {
+        return
+    }
+
+    if (value === "Enter") {
+        value = "=";
+    }
+
+    equaling(value);   
+
+    calculator.operatorLast = false;
+}
+
+
+function characterLimit() {
+
+    if ((displayBottom.textContent.length >= 15) && (calculator.bottomValue !== "")) {
+        return true;
+    }
+}
 
 
 function dataEntry(value) {
 
+
     if (calculator.numbers.includes(value)) {
-        //  if (displayBottom.textContent.length >= 15) {
-        //     return;
-        //  }
+
+        if (characterLimit()) { // Don't allow number to overflow display
+            return;
+        }
 
         if (resetDisplay()) { // Checking to see if there was a previous operation, in which case start fresh
-             calculator.bottomValue = value;
-             displayTop.textContent = "";
-             calculator.operationComplete = false;
-
-        } else if (value === "." && displayBottom.textContent.includes(".")) { // Only one decimal allowed per number
-            return;
-
-        } else {
-            calculator.bottomValue += value;
+            calculator.bottomValue = value;
+            displayTop.textContent = "";
         }
 
-        displayBottom.textContent = calculator.bottomValue;
-        calculator.operatorLast = false;
+        inputValueNumber(value);
         
-    } else if ((calculator.operators.includes(value)) && (calculator.bottomValue === 0 || calculator.bottomValue !== "")) {
-
-        let inputOperator = value;
-        
-        if (operationOngoing()) {
-            equaling(value); 
-
-        } else if (resetDisplay()) {
-            displayTop.textContent = calculator.bottomValue;
-            addOperator(inputOperator);
-
-        } else {
-            addOperator(inputOperator);
-        }
-
-        displayTop.textContent = calculator.num1 + inputOperator; // Add operator to display and set "operator"
-        calculator.operator = inputOperator; 
-
-        calculator.operatorLast = true;
-        
-    } else if ((value === "=" || value === "Enter") && operationOngoing() === true) {
-        if (value === "Enter") {
-            value = "=";
-        }
-        equaling(value);   
-        calculator.operatorLast = false;
+    } else if (calculator.operators.includes(value)) {
+        inputValueOperator(value);
+             
+    } else if (value === "=" || value === "Enter") {
+        inputValueEqual(value);
     }
-};
+
+}
 
 
 
