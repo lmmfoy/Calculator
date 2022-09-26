@@ -1,1 +1,1 @@
-A usable calculator with vanilla JavaScript, HTML, and CSS.
+A project from the Odin Project: a usable calculator made with vanilla JavaScript, HTML, and CSS.
