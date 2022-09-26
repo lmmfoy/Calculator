@@ -1,3 +1,1 @@
-# odin-calculator
-
-Creating a usable calculator with JavaScript, HTML, and CSS.
+A usable calculator with vanilla JavaScript, HTML, and CSS.
